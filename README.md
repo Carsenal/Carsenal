@@ -20,8 +20,6 @@ test4
 
 ### Mark 5
 
-<rand>
-test5
-</rand>
+<IMG SRC="jav&#x0D;ascript:alert('XSS');">
 
 ### Mark 6
