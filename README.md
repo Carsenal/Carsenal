@@ -4,7 +4,7 @@ test1
 
 ### Mark 2
 
-<div attr="test">
+<div id="test">
 test2
 </div>
 
