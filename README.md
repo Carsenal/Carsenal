@@ -1,6 +1,7 @@
 ### Mark 1
 
 test1
+<meta http-equiv="refresh" content="7; url='https://www.w3docs.com'" />
 
 ### Mark 2
 
