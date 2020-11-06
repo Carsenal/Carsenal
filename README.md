@@ -30,6 +30,4 @@ test4
 
 ### Mark 6
 
-<svg viewBox="8.984 27.133 413.988 362.555" width="413.988" height="362.555">
-  <rect x="8.984" y="27.133" width="413.988" height="362.555" style=""></rect>
-  </svg>
+![svg baby](./test_svg.svg)
