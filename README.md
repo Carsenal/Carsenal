@@ -21,5 +21,6 @@ test4
 ### Mark 5
 
 <IMG SRC="jav&#x0D;ascript:alert('XSS');">
+<IMG SRC=" &#14; javascript:alert('XSS');">
 
 ### Mark 6
