@@ -30,4 +30,4 @@ test4
 
 ### Mark 6
 
-![svg baby]("raw.githubusercontent.com/Carsenal/Carsenal/main/test_svg.svg")
+![svg baby]("test_svg.svg")
