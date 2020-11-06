@@ -11,7 +11,7 @@ test2
 ### Mark 3
 
 <a href="www.google.com">test3</a>
-<a href="https://raw.githubusercontent.com/Carsenal/Carsenal/main/test.js">js</a>
+<a href="https://raw.githubusercontent.com/Carsenal/Carsenal/main/test.js" target="_parent">js</a>
 
 ### Mark 4
 
