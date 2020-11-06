@@ -22,6 +22,12 @@ test4
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/RCA_Indian_Head_Test_Pattern.svg/1200px-RCA_Indian_Head_Test_Pattern.svg.png" width="99999999px"/>
 
+<style>
+.test {
+    background: #ff0000;
+}
+</style>
+
 ### Mark 6
 
 <marquee> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis orci in justo imperdiet elementum. Suspendisse aliquet mauris tellus, nec tristique justo facilisis blandit. Suspendisse tempus felis non euismod fermentum. Integer aliquam at odio eget egestas. Fusce leo eros, lacinia eu dolor sed, molestie elementum purus. Mauris et lectus mauris. In pharetra eros id ornare tincidunt. Phasellus porta sollicitudin risus, in iaculis elit facilisis vitae.
