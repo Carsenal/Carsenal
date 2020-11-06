@@ -5,7 +5,7 @@
  -->
 <!-- Title: controllers_diagram Pages: 1 -->
 <svg
- viewBox="0 0 200 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible">
+ viewBox="0 0 200 30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="scroll">
 <text y="20">This text is wider than the SVG, so there should be a scrollbar shown.</text>
 <svg>
 
