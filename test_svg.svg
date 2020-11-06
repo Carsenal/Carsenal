@@ -8,6 +8,16 @@
  viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" overflow="scroll">
  <g>
      <path id="hl0" d="M 0 0 H 200"/>
+     <path id="hl0" d="M 0 10 H 200"/>
+     <path id="hl0" d="M 0 20 H 200"/>
+     <path id="hl0" d="M 0 30 H 200"/>
+     <path id="hl0" d="M 0 40 H 200"/>
+     <path id="hl0" d="M 0 50 H 200"/>
+     <path id="hl0" d="M 0 60 H 200"/>
+     <path id="hl0" d="M 0 70 H 200"/>
+     <path id="hl0" d="M 0 80 H 200"/>
+     <path id="hl0" d="M 0 90 H 200"/>
+     <path id="hl0" d="M 0 100 H 200"/>
  </g>
 </svg>
 
