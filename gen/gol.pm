@@ -6,6 +6,7 @@ use strict;
 use warnings;
 
 use Game::Life;
+use Term::ProgressBar;
 
 sub print_game
 {
@@ -45,10 +46,16 @@ sub calc_game
         print_game($game);
     }
 
-    $game->process($i_cycles);
+    my $progress = Term::ProgressBar->new ({count => $i_cycles});
+    for my $i (0 .. $i_cycles) {
+        $game->process;
+        $progress->update($i);
+    }
 
     print "Completed initial cell generation\n" if $disp;
 
+    $progress = Term::ProgressBar->new({ count => $s_cycles })
+        if not $disp;
     for my $i (0 .. $s_cycles) {
         $game->process;
         my @grid = $game->get_text_grid();
@@ -56,6 +63,8 @@ sub calc_game
         if ($disp) {
             print "($i/$s_cycles):\n";
             print_game($game);
+        } else {
+            $progress->update($i);
         }
     }
 

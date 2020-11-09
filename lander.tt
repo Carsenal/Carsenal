@@ -3,16 +3,41 @@
     encoding="UTF-8"
     standalone="no"?>
 <!DOCTYPE svg>
+[%# Inputs %]
+[% name='Carson Riker' %]
+[% tagline='A developer' %]
+[% description='' %]
+
+[% image_size=100 %]
+
+
 <svg
     xmlns="http://www.w3.org/2000/svg"
-    overflow="hidden">
-    <g id="gol">
-        <g id="gun">
-
+    overflow="hidden"
+    width="100%"
+    preserveAspectRatio="xMidYMid meet"
+    viewbox="0 0 400 300">
+    <rect x="0" y="0" width="400" height="300" fill="#ff0000"/>
+    <g id="header">
+        <g id="gol">
         </g>
-        <g id="gliders">
-
+        <g id="name">
+        </g>
+        <g id="tagline">
         </g>
     </g>
-    <rect x="0" y="0" width="10" height="20" fill="#ff0000"/>
+    <image
+        id="portait" href="./portrait.jpg"
+        x="5" y="50"
+        width="[% image_size %]" height="[% image_size %]"/>
+    <g id="body">
+
+    </g>
+    <g id="grid" x="0" y="200" width="400" height="100">
+        <polyline
+            fill="none"
+            stroke="#000"
+            points="0,225 25,225 25,2">
+        </polyline>
+    </g>
 </svg>
