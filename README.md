@@ -1,1 +1,1 @@
-![svg is not displaying properly](lander.svg)
+![svg is not displaying properly](./lander.svg)
