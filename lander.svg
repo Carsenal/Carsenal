@@ -8,7 +8,7 @@
     overflow="hidden">
     <image x="10" y="20" width="1024" height="256" img-src="gol.svg"/>
     <rect x="0" y="0" width="10" height="20" fill="#ff0000"/>
-    <a href="www.google.com" target="_self">
+    <a href="www.google.com" target="_replace">
         <text x="0" y="20">Open link within iframe</text>
     </a>
 </svg>
