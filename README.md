@@ -1,3 +1,3 @@
 ### Carson Riker
 
-![svg lander](lander.svg)
+![svg is not displaying properly](lander.svg)
