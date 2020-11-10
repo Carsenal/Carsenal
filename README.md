@@ -1,1 +1,3 @@
-![svg is not displaying properly](./lander.svg)
+### Carson Riker
+
+<img src="./lander.svg" width="100%"/>
