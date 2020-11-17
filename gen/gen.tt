@@ -1,7 +1,3 @@
-<?xml
-    version="1.0"
-    encoding="UTF-8"
-    standalone="no"?>
 [%# gen.tt
 Generates an animated svg graphic of a given game of life simulation
 Arguements:
@@ -18,13 +14,7 @@ cells: an array of cell objects:
         status => string of states
     }
 %]
-<!DOCTYPE svg>
-<!--Generated SVG animation of [% pattern %]-->
-<svg
-    viewBox="0 0 [% width %] [% height %]"
-    xmlns="http://www.w3.org/2000/svg"
-    overflow="hidden">
-    [% FOREACH cell IN cells %]
+[% FOREACH cell IN cells %]
     [% IF cell.period == 1 %]
         <rect x="[% cell.x + 0.05  %]" y="[% cell.y + 0.05 %]" width="0.9" height="0.9" fill="#000000"/>
     [% ELSE %]
@@ -36,5 +26,4 @@ cells: an array of cell objects:
                 repeatCount="indefinite"/>
         </rect>
     [% END %]
-    [% END %]
-</svg>
+[% END %]

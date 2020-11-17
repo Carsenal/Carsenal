@@ -61,6 +61,8 @@ sub make_opacity
 sub gen_game
 {
     my ($file_args, $game_args) = @_;
+    my $dw = $file_args->{disp_width};
+    my $dh = $file_args->{disp_height};
     my $w = $game_args->{width};
     my $h = $game_args->{height};
     my $c = $game_args->{simulate_cycles};
@@ -84,8 +86,8 @@ sub gen_game
             my $sublen = repeat_len($str);
             $sublen = length $str if $sublen == 0;
             push @res, {
-                x => $x,
-                y => $y,
+                x => $x * $dw / $w,
+                y => $y * $dh / $h,
                 #period => $c,
                 #status => make_opacity($str)
                 period => $sublen,

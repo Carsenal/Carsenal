@@ -10,16 +10,18 @@ gen::gen_game(
 {
     name => 'mwss_gun',
     duration => 5,
+    disp_width => 1600,
+    disp_height => 160
 },
 {
-    width           => 512,
+    width           => 320,
     height          => 32,
     disp            => 1,
-    initial_cycles  => 46*32,
+    initial_cycles  => 46*20,
     simulate_cycles => 46*2,
     patterns => [
     {
-        x    => 471,
+        x    => 279,
         y    => 0,
         data => [
         qw(.................................O......
