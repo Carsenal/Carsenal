@@ -60,6 +60,7 @@ func (b *Bitstring) Set(x, y uint, val bool) {
     }
 }
 
+// TODO make this go data block by data block
 func (b *Bitstring) List() <-chan [2]uint {
 	ch := make(chan [2]uint)
 	go func(b *Bitstring) {
@@ -79,7 +80,7 @@ func (b *Bitstring) List() <-chan [2]uint {
 func (op1 *Bitstring) NowOn (op2 *Bitstring) *Bitstring {
     res := NewBitstring(op1.w, op1.h)
     for i := 0; i < len(res.data); i ++ {
-        res.data[i] = op2.data[i] &^ op1.data[i]
+        res.data[i] = op1.data[i] &^ op2.data[i]
     }
     return res
 }

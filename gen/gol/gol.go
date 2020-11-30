@@ -3,7 +3,10 @@ package gol
 import (
     "../bitstring"
     "sync"
-//    "fmt"
+    "unicode"
+    "bufio"
+    "os"
+    "fmt"
 )
 
 type Life struct {
@@ -60,16 +63,87 @@ func (l *Life) StepCell(x, y uint, wg *sync.WaitGroup) {
     wg.Done()
 }
 
-/*
-func (l *Life) SetPattern(x, y uint, str []string) {
-    var i, j uint
-    for i = 0; i < len(str); i++ {
-        for j = 0; j < len(str[i]); j++ {
-            l.Current.Set
+func (l *Life) SetRle(x, y uint, filename string) {
+    fmt.Printf("Parsing file %s\n", filename)
+    var w, h int
+    var data string
+    f, err := os.Open(filename)
+    if err != nil {
+        fmt.Printf("Err: %v\n", err)
+    }
+    defer f.Close()
+    scanner := bufio.NewScanner(f)
+    for scanner.Scan() {
+        if scanner.Text()[0] == '#' {
+            continue
+        } else if scanner.Text()[0] == 'x' {
+            contine
+        } else {
+            data += scanner.Text()
+        }
+    }
+    fmt.Printf("w: %d, h: %d\n", w, h)
+
+    // Parse data str
+    var coeff uint
+    coeff = 0
+    start := x
+    for _, c := range data {
+        if unicode.IsDigit(c) {
+            coeff = coeff*10 + uint(c - '0')
+        } else if c == 'b' {
+            if coeff == 0 {
+                coeff = 1
+            }
+            dest := x + coeff
+            for ; x < dest; x++ {
+                //l.Current.Set(x, y, false)
+            }
+            coeff = 0
+        } else if c == 'o' {
+            if coeff == 0 {
+                coeff = 1
+            }
+            dest := x + coeff
+            for ; x < dest; x++ {
+                l.Current.Set(x, y, true)
+            }
+            coeff = 0
+        } else if c == '$' {
+            x = start
+            y++
+            coeff = 0
+        } else if c == '!' {
+            // done
+            fmt.Printf("Resultant:\n")
+            fmt.Println(l.ToString())
+            return
+        } else {
+            fmt.Printf("Unrecognized char '%s'\n", c)
+        }
+    }
+
+    fmt.Printf("Resultant:\n")
+    fmt.Println(l.ToString())
+}
+
+func (l *Life) SetPattern(x, y uint, str string) {
+    start := x
+    for _, c := range str {
+        if c == '\n' {
+            x = start
+            y++
+        } else {
+            if c == '.' {
+                l.Current.Set(x, y, false)
+            } else {
+                l.Current.Set(x, y, true)
+            }
+            x++
         }
     }
 }
-*/
+
 
 func (l *Life) Step() {
     var wg sync.WaitGroup

@@ -7,12 +7,15 @@ import (
 )
 
 func main() {
-    l := gol.NewLife(10, 8)
-    l.Current.Set(4, 4, true)
-    l.Current.Set(5, 4, true)
-    l.Current.Set(6, 4, true)
-    fmt.Printf("%s\n", l.ToString())
-    fmt.Println("Starting gen")
-    gen.MakeSvg(l, 10)
+    // Setup simulation
+    fmt.Println("Preparing simulation")
+    l := gol.NewLife(256, 64)
+    //l.SetPattern(32, 32, "xxx\n\n\n\nxxx")
+    l.SetRle(4, 4, "./c.rle")
+
+    // Generate
+    gen.MakeSvg(l, "../pattern.svg", 1872, 10, 1000, 800)
+    fmt.Println("Done")
 }
+
 
