@@ -14,7 +14,7 @@ func main() {
     l.SetRle(4, 4, "./c.rle")
 
     // Generate
-    gen.MakeSvg(l, "../pattern.svg", 1872, 10, 1000, 800)
+    gen.MakeSvg(l, "./pattern.svg", , 10, 1000, 800)
     fmt.Println("Done")
 }
 
