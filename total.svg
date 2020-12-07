@@ -5,7 +5,7 @@
     <foreignObject x="0" y="-2" width="102" height="43">
     <div id="working_test">test</div>
     <style>
-        #working_test { color: #f00; }
+        html { background: #000; }
     </style>
     </foreignObject>
 </svg>
