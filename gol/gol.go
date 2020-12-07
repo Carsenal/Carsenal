@@ -3,6 +3,9 @@ package gol
 import (
 	"../bitstring"
 	"sync"
+	"os"
+	"bufio"
+	"fmt"
 )
 
 type Life struct {
@@ -21,6 +24,96 @@ func NewLife(w, h uint) *Life {
 	l.Current = &l.a
 	l.Past = &l.b
 	return &l
+}
+
+func FromRLE(filename string) *Life {
+	f, err := os.Open(filename)
+	defer f.Close()
+	if err != nil {
+		panic(err)
+	}
+	scanner := bufio.NewScanner(f)
+	// Read comment lines at start
+	for scanner.Scan(); scanner.Text()[0] == '#'; scanner.Scan() {
+		fmt.Printf("Comment at head of file %s: %s\n", filename, scanner.Text())
+	}
+	// Read dimensions
+	var w, h uint
+	fmt.Sscanf(scanner.Text(), "x = %d, y = %d", &w, &h)
+	fmt.Printf("Read filename %s width: %d, height %d\n", filename, w, h)
+	l := NewLife(w, h)
+	// Read content
+	var i, j, coeffecient uint
+	i = 0
+	coeffecient = 0
+	for scanner.Scan() {
+		for _, c := range scanner.Text() {
+			switch c {
+			case '0':
+				coeffecient *= 10
+			case '1':
+				coeffecient *= 10
+				coeffecient += 1
+			case '2':
+				coeffecient *= 10
+				coeffecient += 2
+			case '3':
+				coeffecient *= 10
+				coeffecient += 3
+			case '4':
+				coeffecient *= 10
+				coeffecient += 4
+			case '5':
+				coeffecient *= 10
+				coeffecient += 5
+			case '6':
+				coeffecient *= 10
+				coeffecient += 6
+			case '7':
+				coeffecient *= 10
+				coeffecient += 7
+			case '8':
+				coeffecient *= 10
+				coeffecient += 8
+			case '9':
+				coeffecient *= 10
+				coeffecient += 9
+			case 'b':
+    			if coeffecient == 0 {
+        			i ++
+    			} else {
+    				i += coeffecient
+    				coeffecient = 0
+    			}
+			case 'o':
+    			if coeffecient == 0 {
+        			coeffecient = 1
+    			}
+				for j = 0; j < coeffecient; j++ {
+					l.Current.Set(i, 0, true)
+					i++
+				}
+				coeffecient = 0
+				// TODO: Make this go block by block
+			case '$':
+    			if coeffecient == 0 {
+        			coeffecient = 1
+    			}
+				if i%w != 0 {
+    				i += w - (i % w)
+				}
+				coeffecient --
+				i += (w * coeffecient)
+				coeffecient = 0
+			case '!':
+				if coeffecient != 0 {
+					fmt.Printf("Error, ended rle with coeffecient of %d\n", coeffecient)
+				}
+            	return l
+			}
+		}
+	}
+	return l
 }
 
 func (l *Life) StepCell(x, y uint, wg *sync.WaitGroup) {

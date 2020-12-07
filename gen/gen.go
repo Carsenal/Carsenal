@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func MakeSvg(l *gol.Life, filename string, rounds, dur, width, height uint) {
+func MakeSvg(l *gol.Life, filename string, rounds, width, height uint, dur float64) {
 	// Generate frame data
 	fmt.Println("Generating states")
 	cells := generateStates(l, rounds)
@@ -64,11 +64,11 @@ func generateStates(l *gol.Life, rounds uint) (cells []cell) {
 
 	// Calculate rounds
 	for i = 1; i < rounds; i++ {
-    	// Pull cells off cooldown
-    	if len(cooldown) > 0 {
-        	open = append(open, cooldown...)
-        	cooldown = nil
-    	}
+		// Pull cells off cooldown
+		if len(cooldown) > 0 {
+			open = append(open, cooldown...)
+			cooldown = nil
+		}
 		// Step
 		l.Step()
 
@@ -134,79 +134,56 @@ func (c *cell) coords(rounds int) []bool {
 	return status
 }
 
-func (c *cell) listOpacity(rounds uint) chan uint {
-	ch := make(chan uint)
-	go func(c *cell) {
-		j := 0
-		var i uint
-		state := c.states[0]
-		for i = 0; i < rounds; i++ {
-			if i < state.start {
-				ch <- 0 // Write zero if not inside state
-			} else if i < (state.start+state.dur)-1 {
-				ch <- 1 // Write 1 while inside state
-			} else if i == (state.start+state.dur)-1 {
-				ch <- 1
-				j++
-				if j < len(c.states) {
-					state = c.states[j]
-				}
-			} else {
-				ch <- 0 // Write zero while hanging off end
-			}
-		}
-		close(ch)
-	}(c)
-	return ch
+func (c *cell) iterateStates(rounds uint) (chan uint, chan uint, chan uint) {
+    chOpacity := make(chan uint, rounds)
+    chX := make(chan uint, rounds)
+    chY := make(chan uint, rounds)
+    go func() {
+        var stateIndex, i uint
+        state := c.states[0]
+        stateIndex = 0
+        for i = 0; i < rounds; i++ {
+            if i < state.start {
+                // Before start
+                chOpacity <- 1
+                chX <- state.x
+                chY <- state.y
+            } else if i < (state.start + state.dur) {
+                // Inside of state
+                chOpacity <- 1
+                chX <- state.x
+                chY <- state.y
+            } else {
+                // Done
+                chOpacity <- 0
+                chX <- state.x
+                chY <- state.y
+            }
+
+            if i == (state.start + state.dur - 1) {
+                stateIndex ++
+                if stateIndex >= uint(len(c.states)) {
+                    state = c.states[0]
+                } else {
+                    state = c.states[stateIndex]
+                }
+            }
+        }
+        close(chOpacity)
+        close(chX)
+        close(chY)
+    }()
+    return chOpacity, chX, chY
 }
 
-func (c *cell) listX(rounds uint) chan uint {
-	ch := make(chan uint)
-	go func(c *cell) {
-		j := 0
-		var i uint
-		state := c.states[0]
-		for i = 0; i < rounds; i++ {
-			ch <- state.x
-			if i == state.start+state.dur {
-				j++
-				if j < len(c.states) {
-					state = c.states[j]
-				}
-			}
-		}
-		close(ch)
-	}(c)
-	return ch
-}
-
-func (c *cell) listY(rounds uint) chan uint {
-	ch := make(chan uint)
-	go func(c *cell) {
-		j := 0
-		var i uint
-		state := c.states[0]
-		for i = 0; i < rounds; i++ {
-			ch <- state.y
-			if i == state.start+state.dur {
-				j++
-				if j < len(c.states) {
-					state = c.states[j]
-				}
-			}
-		}
-		close(ch)
-	}(c)
-	return ch
-}
-
-func (c *cell) toSvg(dur uint, rounds uint) string {
+func (c *cell) toSvg(dur float64, rounds uint) string {
+    chOpacity, chX, chY := c.iterateStates(rounds)
 	// Animate opacity
-	opacityStr := animateStr(c.listOpacity(rounds), "opacity", dur)
+	opacityStr := animateStr(chOpacity, "opacity", dur)
 	// Animate x
-	xStr := animateStrTransition(c.listX(rounds), "x", dur)
+	xStr := animateStrTransition(chX, "x", dur)
 	// Animate y
-	yStr := animateStrTransition(c.listY(rounds), "y", dur)
+	yStr := animateStrTransition(chY, "y", dur)
 	return fmt.Sprintf(
 		"<rect width=\"1\" height=\"1\" fill=\"#000\" opacity=\"1\" x=\"%d\" y=\"%d\">%s%s%s</rect>",
 		c.states[0].x,
@@ -216,49 +193,49 @@ func (c *cell) toSvg(dur uint, rounds uint) string {
 		yStr)
 }
 
-func animateStr(ch chan uint, name string, dur uint) string {
+func animateStr(ch chan uint, name string, dur float64) string {
 	var strArr []string
 	var last uint
 	unique := false
 	first := true
 	for val := range ch {
-    	if first {
-        	last = val
-        	first = false
-    	} else if val != last {
-        	unique = true
-    	}
+		if first {
+			last = val
+			first = false
+		} else if val != last {
+			unique = true
+		}
 		strArr = append(strArr, fmt.Sprintf("%v;%v", val, val))
 	}
 	if !unique {
-    	return ""
+		return ""
 	}
 	return fmt.Sprintf(
-		"<animate attributeName=\"%s\" values=\"%s\" dur=\"%ds\" repeatCount=\"indefinite\"/>",
+		"<animate attributeName=\"%s\" values=\"%s\" dur=\"%fs\" repeatCount=\"indefinite\"/>",
 		name, strings.Join(strArr, ";"), dur)
 }
 
-func animateStrTransition(ch chan uint, name string, dur uint) string {
+func animateStrTransition(ch chan uint, name string, dur float64) string {
 	var strArr []string
 	var last uint
 	unique := false
 	first := true
 	for val := range ch {
-    	if first {
-        	last = val
-        	first = false
-    	} else if val != last {
-        	unique = true
-    		strArr = append(strArr, fmt.Sprintf("%v;%v", last, val))
-    	} else {
-    		strArr = append(strArr, fmt.Sprintf("%v;%v", val, val))
-    	}
-    	last = val
+		if first {
+			last = val
+			first = false
+		} else if val != last {
+			unique = true
+			strArr = append(strArr, fmt.Sprintf("%v;%v", last, val))
+		} else {
+			strArr = append(strArr, fmt.Sprintf("%v;%v", val, val))
+		}
+		last = val
 	}
 	if !unique {
-    	return ""
+		return ""
 	}
 	return fmt.Sprintf(
-		"<animate attributeName=\"%s\" values=\"%s\" dur=\"%ds\" repeatCount=\"indefinite\"/>",
+		"<animate attributeName=\"%s\" values=\"%s\" dur=\"%fs\" repeatCount=\"indefinite\"/>",
 		name, strings.Join(strArr, ";"), dur)
 }

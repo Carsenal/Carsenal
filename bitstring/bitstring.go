@@ -60,6 +60,10 @@ func (b *Bitstring) Set(x, y uint, val bool) {
 	}
 }
 
+func (b *Bitstring) SetRange(start, length uint, val bool) {
+    // Set start
+}
+
 // TODO make this go data block by data block
 func (b *Bitstring) List() <-chan [2]uint {
 	ch := make(chan [2]uint)

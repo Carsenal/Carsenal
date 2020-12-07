@@ -1,3 +1,3 @@
 ### Carson Riker
 
-<img src="./lander.svg" width="100%"/>
+<img src="./total.svg" width="100%"/>
