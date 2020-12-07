@@ -3,9 +3,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 -2 204 41">
     <rect x="102" y="-2" width="102" height="43" fill="#000" />
     <foreignObject x="0" y="-2" width="102" height="43">
-    <div> test </div>
+    <div id="working_test">test</div>
     <script>
-        alert("test")
+        document.getElementById("working_test").innerText = 'working';
     </script>
     </foreignObject>
 </svg>
