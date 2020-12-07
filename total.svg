@@ -4,9 +4,8 @@
     <rect x="102" y="-2" width="102" height="43" fill="#000" />
     <foreignObject x="0" y="-2" width="102" height="43">
     <div id="working_test">test</div>
-    <div onload="document.getElementById('working_test').innerText = 'working'"> test2</div>
-    <script>
-        document.getElementById("working_test").innerText = 'working';
-    </script>
+    <style>
+        #working_test { color: #f00; }
+    </style>
     </foreignObject>
 </svg>
