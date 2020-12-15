@@ -3,7 +3,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 -2 204 41">
     <rect x="102" y="-2" width="102" height="43" fill="#000" />
     <foreignObject x="0" y="-2" width="102" height="43">
-    <div id="working_test" style="color: #f00">test</div>
+    <div xmlns="http://www.w3.org/1999/xhtml" id="working_test" style="color: #f00">test</div>
     <style>
         #working_test { background: #00f; }
         html { background: #000; }
